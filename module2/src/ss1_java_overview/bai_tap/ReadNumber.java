@@ -54,7 +54,6 @@ public class ReadNumber {
             }
         }
 
-
         if (ten == 1) {
             switch (one) {
                 case 0:
@@ -89,7 +88,6 @@ public class ReadNumber {
                     break;
             }
         } else {
-
             switch (ten) {
                 case 2:
                     result += "Twenty ";
@@ -116,7 +114,6 @@ public class ReadNumber {
                     result += "Ninety ";
                     break;
             }
-
 
             switch (one) {
                 case 1:
