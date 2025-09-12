@@ -1,0 +1,23 @@
+package ss5_access_modifier_static.bai_tap.bai_tap2;
+
+public class Student {
+    private String name = "John";
+    private String classes = "C02";
+
+    public Student() {
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+
+    public void printInfo() {
+        System.out.println("Tên: " + name + ", Lớp: " + classes);
+    }
+}

@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Prime {
     public static void main(String[] args) {
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input number check : ");
         int num = scanner.nextInt();
