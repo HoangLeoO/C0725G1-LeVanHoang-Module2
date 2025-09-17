@@ -1,5 +1,7 @@
 package ss7_abstract_class_interface.bai_tap.bai_tap2;
 
+import ss7_abstract_class_interface.bai_tap.bai_tap1.IResizeable;
+
 public class Shape implements IResizeable {
     private String color = "green";
     private boolean filled = true;

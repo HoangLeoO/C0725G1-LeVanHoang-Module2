@@ -57,7 +57,7 @@ public class StudentManager {
             }
         }
         for (int i = 0; i < students.length; i++) {
-            if (students[i] == null) {
+            if (students[i] == null && students[i+1] != null ) {
                 for (int j = i + 1; j < students.length; j++) {
                     if (students[j] != null) {
                         Student temp = students[j];
