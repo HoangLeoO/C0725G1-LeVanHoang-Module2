@@ -1,15 +1,16 @@
-package transport.controller;
+package transport_v2.Controller;
 
-import transport.entity.Car;
-import transport.entity.Motorbike;
-import transport.entity.Transport;
-import transport.entity.Truck;
-import transport.service.ITransportService;
-import transport.service.TransportService;
-import transport.view.CarView;
-import transport.view.MotorbikeView;
-import transport.view.TransportView;
-import transport.view.TruckView;
+
+import transport_v2.entity.Car;
+import transport_v2.entity.Motorbike;
+import transport_v2.entity.Transport;
+import transport_v2.entity.Truck;
+import transport_v2.service.ITransportService;
+import transport_v2.service.TransportService;
+import transport_v2.view.CarView;
+import transport_v2.view.MotorbikeView;
+import transport_v2.view.TransportView;
+import transport_v2.view.TruckView;
 
 import java.util.Scanner;
 
@@ -72,9 +73,15 @@ public class TransportController {
 
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
-            case 1 -> CarController.showListCar();
-            case 2 -> MotorbikeController.showListMotorbike();
-            case 3 -> TruckController.showListTruck();
+            case 1 -> {
+                CarController.showListCar();
+            }
+            case 2 -> {
+                MotorbikeController.showListMotorbike();
+            }
+            case 3 -> {
+                TruckController.showListTruck();
+            }
             case 4 -> {
             }
         }
@@ -95,11 +102,11 @@ public class TransportController {
         }
 
         if (transport instanceof Car) {
-            CarController.carService.delete(transport.getLicensePlate());
+            CarController.carService.deleteTransport(transport.getLicensePlate());
         } else if (transport instanceof Motorbike) {
-            MotorbikeController.motorbikeService.deleteMotorbike(transport.getLicensePlate());
+            MotorbikeController.motorbikeService.deleteTransport(transport.getLicensePlate());
         } else if (transport instanceof Truck) {
-            TruckController.truckService.deleteTruck(transport.getLicensePlate());
+            TruckController.truckService.deleteTransport(transport.getLicensePlate());
         }
 
         System.out.println("=> Đã xóa phương tiện có biển số: " + plate);
@@ -115,19 +122,19 @@ public class TransportController {
             return;
         }
 
-        if (!TransportView.confirmEdit(transport)) {
-            System.out.println("Hủy thao tác xóa.");
-            return;
-        }
+//        if (!TransportView.confirmEdit(transport)) {
+//            System.out.println("Hủy thao tác suawr.");
+//            return;
+//        }
 
         if (transport instanceof Car) {
-            CarController.carService.editCar(CarView.editCar((Car) transport));
+            transportService.editTransport(CarView.editCar((Car) transport));
         } else if (transport instanceof Motorbike) {
-            MotorbikeController.motorbikeService.editMotorbike(MotorbikeView.editMotorbike((Motorbike) transport));
+            transportService.editTransport(MotorbikeView.editMotorbike((Motorbike) transport));
         } else if (transport instanceof Truck) {
-            TruckController.truckService.editTruck(TruckView.editTruck((Truck) transport));
+            transportService.editTransport(TruckView.editTruck((Truck) transport));
         }
 
-        System.out.println("=> Đã xóa phương tiện có biển số: " + plate);
+        System.out.println("=> Đã chỉnh sửa phương tiện có biển số: " + plate);
     }
 }

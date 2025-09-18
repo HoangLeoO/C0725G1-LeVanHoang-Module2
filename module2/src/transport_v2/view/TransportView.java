@@ -1,6 +1,7 @@
-package transport.view;
+package transport_v2.view;
 
-import transport.entity.Transport;
+
+import transport_v2.entity.Transport;
 
 import java.util.Scanner;
 
