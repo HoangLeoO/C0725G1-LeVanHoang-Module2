@@ -1,56 +1,48 @@
 package transport.repository;
 
+import transport.entity.Transport;
 import transport.entity.Truck;
 
 import java.util.Objects;
 
-public class TruckRepository implements ITruckRepository {
-    static Truck[] trucks = new Truck[100];
+import static transport.repository.TransportRepository.transports;
 
-    static {
-        trucks[0] = new Truck("41A-212.56", "Toyota", 2019, "Nguyễn Văn A", 10);
-        trucks[1] = new Truck("41B-312.23", "Huyndai", 2010, "Nguyễn Văn B", 5);
-    }
+public class TruckRepository implements ITruckRepository {
 
     @Override
-    public Truck[] findAllTruck() {
+    public Transport[] findAllTransport() {
+        Truck[] trucks = new Truck[100];
+        int indexTruck = 0;
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] instanceof Truck) {
+                trucks[indexTruck] = (Truck) transports[i];
+                indexTruck++;
+            }
+        }
         return trucks;
     }
 
     @Override
-    public Truck getTruckFindLicensePlate(String licensePlate) {
-        for (Truck truck : trucks) {
-            if (truck != null) {
-                if (Objects.equals(truck.getLicensePlate(), licensePlate)) {
-                    return truck;
-                }
-            }
-        }
+    public Transport findByLicensePlate(String licensePlate) {
         return null;
     }
 
     @Override
-    public void addTruck(Truck truck) {
-        for (int i = 0; i < trucks.length; i++) {
-            if (trucks[i] == null) {
-                trucks[i] = truck;
+    public void addTransport(Transport transport) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] == null) {
+                transports[i] = transport;
                 break;
             }
         }
     }
 
     @Override
-    public void editTruck(Truck truck) {
-        System.out.println("test repository" + truck.toString());
-        for (Truck value : trucks) {
-            if (value != null) {
-                if (Objects.equals(value.getLicensePlate(), truck.getLicensePlate())) {
-                    System.out.println(truck.getLicensePlate());
-                    value.setManufacturer(truck.getManufacturer());
-                    value.setYearOfManufacture(truck.getYearOfManufacture());
-                    value.setOwner(truck.getOwner());
-                    value.setPayloadCapacity(truck.getPayloadCapacity());
-                    System.out.println("Edit thành công!");
+    public void editTransport(Transport transport) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] != null) {
+                if (Objects.equals(transports[i].getLicensePlate(), transport.getLicensePlate())) {
+                    transports[i].updateFrom(transport);
                     break;
                 }
             }
@@ -58,23 +50,23 @@ public class TruckRepository implements ITruckRepository {
     }
 
     @Override
-    public void deleteTruck(String licensePlate) {
-        for (int i = 0; i < trucks.length; i++) {
-            if (trucks[i] != null) {
-                if (Objects.equals(trucks[i].getLicensePlate(), licensePlate)) {
-                    trucks[i] = null;
+    public void deleteTransport(String licensePlate) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] != null) {
+                if (Objects.equals(transports[i].getLicensePlate(), licensePlate)) {
+                    transports[i] = null;
                     break;
                 }
             }
         }
-        for (int i = 0; i < trucks.length; i++) {
-            if (i + 1 < trucks.length) {
-                if (trucks[i] == null && trucks[i + 1] != null) {
-                    for (int j = i + 1; j < trucks.length; j++) {
-                        if (trucks[j] != null) {
-                            Truck temp = trucks[j];
-                            trucks[j] = trucks[i];
-                            trucks[i] = temp;
+        for (int i = 0; i < transports.length; i++) {
+            if (i + 1 < transports.length) {
+                if (transports[i] == null && transports[i + 1] != null) {
+                    for (int j = i + 1; j < transports.length; j++) {
+                        if (transports[j] != null) {
+                            Transport temp = transports[j];
+                            transports[j] = transports[i];
+                            transports[i] = temp;
                             break;
                         }
                     }

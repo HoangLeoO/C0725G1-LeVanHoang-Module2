@@ -49,6 +49,13 @@ public abstract class Transport {
         this.owner = owner;
     }
 
+    public void updateFrom(Transport transport){
+        this.licensePlate = transport.getLicensePlate();
+        this.manufacturer = transport.getManufacturer();
+        this.yearOfManufacture = transport.getYearOfManufacture();
+        this.owner = transport.getOwner();
+    }
+
     @Override
     public String toString() {
         return "=============================\n" +

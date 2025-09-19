@@ -1,56 +1,49 @@
 package transport.repository;
 
+
 import transport.entity.Motorbike;
+import transport.entity.Transport;
 
 import java.util.Objects;
 
-public class MotorbikeRepository implements IMotorbikeRepository {
-    static Motorbike[] motorbikes = new Motorbike[100];
+import static transport.repository.TransportRepository.transports;
 
-    static {
-        motorbikes[0] = new Motorbike("40A-212.56", "Toyota", 2019, "Nguyễn Văn A", 120);
-        motorbikes[1] = new Motorbike("40B-312.23", "Huyndai", 2010, "Nguyễn Văn B", 60);
-    }
+public class MotorbikeRepository implements IMotorbikeRepository {
 
     @Override
-    public Motorbike[] findAllMotorbike() {
+    public Transport[] findAllTransport() {
+        Motorbike[] motorbikes = new Motorbike[100];
+        int indexMotorbike = 0;
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] instanceof Motorbike) {
+                motorbikes[indexMotorbike] = (Motorbike) transports[i];
+                indexMotorbike++;
+            }
+        }
         return motorbikes;
     }
 
     @Override
-    public Motorbike getMotorbikeFindLicensePlate(String licensePlate) {
-        for (Motorbike motorbike : motorbikes) {
-            if (motorbike != null) {
-                if (Objects.equals(motorbike.getLicensePlate(), licensePlate)) {
-                    return motorbike;
-                }
-            }
-        }
+    public Transport findByLicensePlate(String licensePlate) {
         return null;
     }
 
     @Override
-    public void addMotorbike(Motorbike motorbike) {
-        for (int i = 0; i < motorbikes.length; i++) {
-            if (motorbikes[i] == null) {
-                motorbikes[i] = motorbike;
+    public void addTransport(Transport transport) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] == null) {
+                transports[i] = transport;
                 break;
             }
         }
     }
 
     @Override
-    public void editMotorbike(Motorbike motorbike) {
-        System.out.println("test repository" + motorbike.toString());
-        for (Motorbike value : motorbikes) {
-            if (value != null) {
-                if (Objects.equals(value.getLicensePlate(), motorbike.getLicensePlate())) {
-                    System.out.println(motorbike.getLicensePlate());
-                    value.setManufacturer(motorbike.getManufacturer());
-                    value.setYearOfManufacture(motorbike.getYearOfManufacture());
-                    value.setOwner(motorbike.getOwner());
-                    value.setEnginePower(motorbike.getEnginePower());
-                    System.out.println("Edit thành công!");
+    public void editTransport(Transport transport) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] != null) {
+                if (Objects.equals(transports[i].getLicensePlate(), transport.getLicensePlate())) {
+                    transports[i].updateFrom(transport);
                     break;
                 }
             }
@@ -58,23 +51,23 @@ public class MotorbikeRepository implements IMotorbikeRepository {
     }
 
     @Override
-    public void deleteMotorbike(String licensePlate) {
-        for (int i = 0; i < motorbikes.length; i++) {
-            if (motorbikes[i] != null) {
-                if (Objects.equals(motorbikes[i].getLicensePlate(), licensePlate)) {
-                    motorbikes[i] = null;
+    public void deleteTransport(String licensePlate) {
+        for (int i = 0; i < transports.length; i++) {
+            if (transports[i] != null) {
+                if (Objects.equals(transports[i].getLicensePlate(), licensePlate)) {
+                    transports[i] = null;
                     break;
                 }
             }
         }
-        for (int i = 0; i < motorbikes.length; i++) {
-            if (i + 1 < motorbikes.length) {
-                if (motorbikes[i] == null && motorbikes[i + 1] != null) {
-                    for (int j = i + 1; j < motorbikes.length; j++) {
-                        if (motorbikes[j] != null) {
-                            Motorbike temp = motorbikes[j];
-                            motorbikes[j] = motorbikes[i];
-                            motorbikes[i] = temp;
+        for (int i = 0; i < transports.length; i++) {
+            if (i + 1 < transports.length) {
+                if (transports[i] == null && transports[i + 1] != null) {
+                    for (int j = i + 1; j < transports.length; j++) {
+                        if (transports[j] != null) {
+                            Transport temp = transports[j];
+                            transports[j] = transports[i];
+                            transports[i] = temp;
                             break;
                         }
                     }

@@ -1,6 +1,6 @@
-package transport_v2;
+package transport;
 
-import transport_v2.Controller.TransportController;
+import transport.Controller.TransportController;
 
 public class RunApp {
     public static void main(String[] args) {

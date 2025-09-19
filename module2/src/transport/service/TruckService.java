@@ -1,36 +1,35 @@
 package transport.service;
 
-import transport.entity.Truck;
+
+import transport.entity.Transport;
 import transport.repository.ITruckRepository;
 import transport.repository.TruckRepository;
 
-public class TruckService implements ITruckService{
+public class TruckService implements ITruckService {
     ITruckRepository truckRepository = new TruckRepository();
 
     @Override
-    public Truck[] findAllTruck() {
-        return truckRepository.findAllTruck();
+    public Transport[] findAllTransport() {
+        return truckRepository.findAllTransport();
     }
 
     @Override
-    public Truck getTruckFindLicensePlate(String licensePlate) {
-        return truckRepository.getTruckFindLicensePlate(licensePlate);
+    public Transport findByLicensePlate(String licensePlate) {
+        return truckRepository.findByLicensePlate(licensePlate);
     }
 
     @Override
-    public void addTruck(Truck truck) {
-        truckRepository.addTruck(truck);
-        System.out.println(" Thêm phương tiện mới có biển số xe " + truck.getLicensePlate() + "thành công !");
-
+    public void addTransport(Transport transport) {
+        truckRepository.addTransport(transport);
     }
 
     @Override
-    public void editTruck(Truck truck) {
-        truckRepository.editTruck(truck);
+    public void editTransport(Transport transport) {
+        truckRepository.editTransport(transport);
     }
 
     @Override
-    public void deleteTruck(String licensePlate) {
-        truckRepository.deleteTruck(licensePlate);
+    public void deleteTransport(String licensePlate) {
+        truckRepository.deleteTransport(licensePlate);
     }
 }

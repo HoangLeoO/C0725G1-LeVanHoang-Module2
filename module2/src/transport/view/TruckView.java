@@ -1,5 +1,6 @@
 package transport.view;
 
+
 import transport.entity.Truck;
 
 import java.util.Scanner;

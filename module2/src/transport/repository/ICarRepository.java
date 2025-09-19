@@ -1,16 +1,6 @@
 package transport.repository;
 
-import transport.entity.Car;
 
-public interface ICarRepository {
+public interface ICarRepository extends ITransportRepository {
 
-    Car[] findAllCar();
-
-    Car getCarFindLicensePlate(String licensePlate);
-
-    void addCar(Car car);
-
-    void editCar(Car car);
-
-    void delete(String licensePlate);
 }

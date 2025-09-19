@@ -1,15 +1,7 @@
 package transport.service;
 
-import transport.entity.Motorbike;
 
-public interface IMotorbikeService {
-    Motorbike[] findAllMotorbike();
 
-    Motorbike getMotorbikeFindLicensePlate(String licensePlate);
+public interface IMotorbikeService extends ITransportService {
 
-    void addMotorbike(Motorbike motorbike);
-
-    void editMotorbike(Motorbike motorbike);
-
-    void deleteMotorbike(String licensePlate);
 }

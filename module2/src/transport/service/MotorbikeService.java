@@ -1,34 +1,36 @@
 package transport.service;
 
-import transport.entity.Motorbike;
+
+import transport.entity.Transport;
 import transport.repository.IMotorbikeRepository;
 import transport.repository.MotorbikeRepository;
 
-public class MotorbikeService implements IMotorbikeService{
+public class MotorbikeService implements IMotorbikeService {
+
     IMotorbikeRepository motorbikeRepository = new MotorbikeRepository();
+
     @Override
-    public Motorbike[] findAllMotorbike() {
-        return motorbikeRepository.findAllMotorbike();
+    public Transport[] findAllTransport() {
+        return motorbikeRepository.findAllTransport();
     }
 
     @Override
-    public Motorbike getMotorbikeFindLicensePlate(String licensePlate) {
-        return motorbikeRepository.getMotorbikeFindLicensePlate(licensePlate);
+    public Transport findByLicensePlate(String licensePlate) {
+        return motorbikeRepository.findByLicensePlate(licensePlate);
     }
 
     @Override
-    public void addMotorbike(Motorbike motorbike) {
-        motorbikeRepository.addMotorbike(motorbike);
-        System.out.println(" Thêm phương tiện mới có biển số xe " + motorbike.getLicensePlate() + "thành công !");
+    public void addTransport(Transport transport) {
+        motorbikeRepository.addTransport(transport);
     }
 
     @Override
-    public void editMotorbike(Motorbike motorbike) {
-        motorbikeRepository.editMotorbike(motorbike);
+    public void editTransport(Transport transport) {
+        motorbikeRepository.editTransport(transport);
     }
 
     @Override
-    public void deleteMotorbike(String licensePlate) {
-        motorbikeRepository.deleteMotorbike(licensePlate);
+    public void deleteTransport(String licensePlate) {
+        motorbikeRepository.deleteTransport(licensePlate);
     }
 }

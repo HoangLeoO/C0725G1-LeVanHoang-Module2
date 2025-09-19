@@ -1,35 +1,33 @@
 package transport.service;
 
-import transport.entity.Car;
+import transport.entity.Transport;
 import transport.repository.CarRepository;
 import transport.repository.ICarRepository;
 
 public class CarService implements ICarService {
     ICarRepository carRepository = new CarRepository();
-
     @Override
-    public Car[] findAllCar() {
-        return carRepository.findAllCar();
+    public Transport[] findAllTransport() {
+        return carRepository.findAllTransport();
     }
 
     @Override
-    public Car getCarFindLicensePlate(String licensePlate) {
-        return carRepository.getCarFindLicensePlate(licensePlate);
+    public Transport findByLicensePlate(String licensePlate) {
+        return carRepository.findByLicensePlate(licensePlate);
     }
 
     @Override
-    public void addCar(Car car) {
-        carRepository.addCar(car);
-        System.out.println(" Thêm phương tiện mới có biển số xe " + car.getLicensePlate() + "thành công !");
+    public void addTransport(Transport transport) {
+        carRepository.addTransport(transport);
     }
 
     @Override
-    public void editCar(Car car) {
-        carRepository.editCar(car);
+    public void editTransport(Transport transport) {
+        carRepository.editTransport(transport);
     }
 
     @Override
-    public void delete(String licensePlate) {
-        carRepository.delete(licensePlate);
+    public void deleteTransport(String licensePlate) {
+        carRepository.deleteTransport(licensePlate);
     }
 }

@@ -1,15 +1,7 @@
 package transport.service;
 
-import transport.entity.Truck;
 
-public interface ITruckService {
-    Truck[] findAllTruck();
 
-    Truck getTruckFindLicensePlate(String licensePlate);
+public interface ITruckService extends  ITransportService {
 
-    void addTruck(Truck truck);
-
-    void editTruck(Truck truck);
-
-    void deleteTruck(String licensePlate);
 }

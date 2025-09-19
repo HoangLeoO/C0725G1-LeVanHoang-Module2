@@ -38,4 +38,13 @@ public class Car extends Transport {
                 "  Kiểu xe        : " + vehicleType + "\n" +
                 "-----------------------------\n";
     }
+
+    @Override
+    public void updateFrom(Transport transport) {
+        super.updateFrom(transport);
+        if (transport instanceof Car c){
+            this.numberOfSeats = c.getNumberOfSeats();
+            this.vehicleType = c.getVehicleType();
+        }
+    }
 }

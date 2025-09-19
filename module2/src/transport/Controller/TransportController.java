@@ -1,16 +1,16 @@
-package transport_v2.Controller;
+package transport.Controller;
 
 
-import transport_v2.entity.Car;
-import transport_v2.entity.Motorbike;
-import transport_v2.entity.Transport;
-import transport_v2.entity.Truck;
-import transport_v2.service.ITransportService;
-import transport_v2.service.TransportService;
-import transport_v2.view.CarView;
-import transport_v2.view.MotorbikeView;
-import transport_v2.view.TransportView;
-import transport_v2.view.TruckView;
+import transport.entity.Car;
+import transport.entity.Motorbike;
+import transport.entity.Transport;
+import transport.entity.Truck;
+import transport.service.ITransportService;
+import transport.service.TransportService;
+import transport.view.CarView;
+import transport.view.MotorbikeView;
+import transport.view.TransportView;
+import transport.view.TruckView;
 
 import java.util.Scanner;
 

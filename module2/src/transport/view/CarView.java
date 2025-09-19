@@ -1,6 +1,8 @@
 package transport.view;
 
+
 import transport.entity.Car;
+import transport.entity.Transport;
 
 import java.util.Scanner;
 
@@ -36,7 +38,7 @@ public class CarView {
     }
 
 
-    public static Car addCar() {
+    public static Transport addCar() {
         Car car = new Car();
 
         System.out.println("----- THÊM MỚI Ô TÔ -----");
@@ -59,7 +61,7 @@ public class CarView {
         car.setVehicleType(scanner.nextLine());
 
         System.out.println("=> Thêm mới thành công!");
-        System.out.println("-------------------------");
+        System.out.println("---------2----------------");
 
         return car;
     }
