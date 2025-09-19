@@ -1,36 +1,35 @@
 package transport.service;
 
 
-import transport.entity.Transport;
-import transport.repository.IMotorbikeRepository;
-import transport.repository.MotorbikeRepository;
+import transport.entity.Motorbike;
+
+import java.util.List;
 
 public class MotorbikeService implements IMotorbikeService {
 
-    IMotorbikeRepository motorbikeRepository = new MotorbikeRepository();
 
     @Override
-    public Transport[] findAllTransport() {
-        return motorbikeRepository.findAllTransport();
+    public List<Motorbike> findAllTransport() {
+        return List.of();
     }
 
     @Override
-    public Transport findByLicensePlate(String licensePlate) {
-        return motorbikeRepository.findByLicensePlate(licensePlate);
+    public Motorbike findByLicensePlate(String licensePlate) {
+        return null;
     }
 
     @Override
-    public void addTransport(Transport transport) {
-        motorbikeRepository.addTransport(transport);
+    public void addTransport(Motorbike object) {
+
     }
 
     @Override
-    public void editTransport(Transport transport) {
-        motorbikeRepository.editTransport(transport);
+    public void editTransport(Motorbike object) {
+
     }
 
     @Override
     public void deleteTransport(String licensePlate) {
-        motorbikeRepository.deleteTransport(licensePlate);
+
     }
 }

@@ -1,7 +1,6 @@
-package transport.Controller;
+package transport.controller;
 
 
-import transport.entity.Truck;
 import transport.service.ITruckService;
 import transport.service.TruckService;
 import transport.view.TruckView;
@@ -10,8 +9,8 @@ public class TruckController {
     static ITruckService truckService = new TruckService();
 
     public static void showListTruck() {
-        Truck[] trucks = (Truck[]) truckService.findAllTransport();
-        TruckView.showAllTruck(trucks);
+//        Truck[] trucks = (Truck[]) truckService.findAllTransport();
+//        TruckView.showAllTruck(trucks);
     }
 
     public static void addTruck() {

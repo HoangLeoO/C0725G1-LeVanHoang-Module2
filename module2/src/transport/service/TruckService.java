@@ -1,35 +1,34 @@
 package transport.service;
 
 
-import transport.entity.Transport;
-import transport.repository.ITruckRepository;
-import transport.repository.TruckRepository;
+import transport.entity.Truck;
+
+import java.util.List;
 
 public class TruckService implements ITruckService {
-    ITruckRepository truckRepository = new TruckRepository();
 
     @Override
-    public Transport[] findAllTransport() {
-        return truckRepository.findAllTransport();
+    public List<Truck> findAllTransport() {
+        return List.of();
     }
 
     @Override
-    public Transport findByLicensePlate(String licensePlate) {
-        return truckRepository.findByLicensePlate(licensePlate);
+    public Truck findByLicensePlate(String licensePlate) {
+        return null;
     }
 
     @Override
-    public void addTransport(Transport transport) {
-        truckRepository.addTransport(transport);
+    public void addTransport(Truck object) {
+
     }
 
     @Override
-    public void editTransport(Transport transport) {
-        truckRepository.editTransport(transport);
+    public void editTransport(Truck object) {
+
     }
 
     @Override
     public void deleteTransport(String licensePlate) {
-        truckRepository.deleteTransport(licensePlate);
+
     }
 }

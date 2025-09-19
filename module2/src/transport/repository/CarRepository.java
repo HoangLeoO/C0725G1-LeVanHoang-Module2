@@ -1,9 +1,11 @@
 package transport.repository;
 
+
 import transport.entity.Car;
 import transport.entity.Transport;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static transport.repository.TransportRepository.transports;
@@ -11,66 +13,47 @@ import static transport.repository.TransportRepository.transports;
 public class CarRepository implements ICarRepository {
 
     @Override
-    public Transport[] findAllTransport() {
-        Car[] cars = new Car[100];
-        int indexCar = 0;
-        for (int i = 0; i < transports.length; i++) {
-            if (transports[i] instanceof Car) {
-                cars[indexCar] = (Car) transports[i];
-                indexCar++;
+    public List<Car> findAllTransport() {
+        List<Car> cars = new ArrayList<>();
+        for (Transport transport : transports) {
+            if (transport instanceof Car) {
+                cars.add((Car) transport);
             }
         }
         return cars;
     }
 
     @Override
-    public Transport findByLicensePlate(String licensePlate) {
+    public Car findByLicensePlate(String licensePlate) {
+        for (Transport transport : transports) {
+            if (transport != null && Objects.equals(transport.getLicensePlate(), licensePlate)) {
+                return (Car) transport;
+            }
+        }
         return null;
     }
 
     @Override
-    public void addTransport(Transport transport) {
-        for (int i = 0; i < transports.length; i++) {
-            if (transports[i] == null) {
-                transports[i] = transport;
-                break;
-            }
-        }
+    public void addTransport(Car car) {
+        transports.add(car);
     }
 
     @Override
-    public void editTransport(Transport transport) {
-        for (int i = 0; i < transports.length; i++) {
-            if (transports[i] != null) {
-                if (Objects.equals(transports[i].getLicensePlate(), transport.getLicensePlate())) {
-                    transports[i].updateFrom(transport);
-                    break;
-                }
+    public void editTransport(Car car) {
+        for (Transport transport : transports) {
+            if (Objects.equals(transport.getLicensePlate(), car.getLicensePlate())) {
+                transport.updateFrom(car);
+                return;
             }
         }
     }
 
     @Override
     public void deleteTransport(String licensePlate) {
-        for (int i = 0; i < transports.length; i++) {
-            if (transports[i] != null) {
-                if (Objects.equals(transports[i].getLicensePlate(), licensePlate)) {
-                    transports[i] = null;
-                    break;
-                }
-            }
-        }
-        for (int i = 0; i < transports.length; i++) {
-            if (i + 1 < transports.length) {
-                if (transports[i] == null && transports[i + 1] != null) {
-                    for (int j = i + 1; j < transports.length; j++) {
-                        if (transports[j] != null) {
-                            Transport temp = transports[j];
-                            transports[j] = transports[i];
-                            transports[i] = temp;
-                            break;
-                        }
-                    }
+        for (Transport transport : transports) {
+            if (transport != null) {
+                if (Objects.equals(transport.getLicensePlate(), licensePlate)) {
+                    transports.remove(transport);
                 }
             }
         }

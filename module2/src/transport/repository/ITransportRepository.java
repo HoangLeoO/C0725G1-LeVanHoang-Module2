@@ -1,17 +1,14 @@
 package transport.repository;
 
 
-import transport.entity.Transport;
 
-public interface ITransportRepository {
+import java.util.List;
 
-    Transport[] findAllTransport();
+public interface ITransportRepository<T,ID> {
 
-    Transport findByLicensePlate(String licensePlate);
-
-    void addTransport(Transport transport);
-
-    void editTransport(Transport transport);
-
-    void deleteTransport(String licensePlate);
+    List<T> findAllTransport();
+    T findByLicensePlate(ID licensePlate);
+    void addTransport(T object);
+    void editTransport(T object);
+    void deleteTransport(ID licensePlate);
 }

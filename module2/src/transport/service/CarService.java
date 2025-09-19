@@ -1,33 +1,33 @@
 package transport.service;
 
-import transport.entity.Transport;
-import transport.repository.CarRepository;
-import transport.repository.ICarRepository;
+import ss5_access_modifier_static.thuc_hanh.thuc_hanh2.Car;
+
+import java.util.List;
 
 public class CarService implements ICarService {
-    ICarRepository carRepository = new CarRepository();
+
     @Override
-    public Transport[] findAllTransport() {
-        return carRepository.findAllTransport();
+    public List<Car> findAllTransport() {
+        return List.of();
     }
 
     @Override
-    public Transport findByLicensePlate(String licensePlate) {
-        return carRepository.findByLicensePlate(licensePlate);
+    public Car findByLicensePlate(String licensePlate) {
+        return null;
     }
 
     @Override
-    public void addTransport(Transport transport) {
-        carRepository.addTransport(transport);
+    public void addTransport(Car object) {
+
     }
 
     @Override
-    public void editTransport(Transport transport) {
-        carRepository.editTransport(transport);
+    public void editTransport(Car object) {
+
     }
 
     @Override
     public void deleteTransport(String licensePlate) {
-        carRepository.deleteTransport(licensePlate);
+
     }
 }

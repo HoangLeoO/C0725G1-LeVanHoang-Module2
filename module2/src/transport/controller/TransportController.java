@@ -1,11 +1,10 @@
-package transport.Controller;
+package transport.controller;
 
 
 import transport.entity.Car;
 import transport.entity.Motorbike;
 import transport.entity.Transport;
 import transport.entity.Truck;
-import transport.service.ITransportService;
 import transport.service.TransportService;
 import transport.view.CarView;
 import transport.view.MotorbikeView;
@@ -16,7 +15,7 @@ import java.util.Scanner;
 
 public class TransportController {
     static Scanner scanner = new Scanner(System.in);
-    static ITransportService transportService = new TransportService();
+    static TransportService transportService = new TransportService();
 
     public static void showMenu() {
         boolean running = true;

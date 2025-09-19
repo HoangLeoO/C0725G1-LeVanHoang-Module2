@@ -2,14 +2,14 @@ package transport.service;
 
 
 import transport.entity.Transport;
-import transport.repository.ITransportRepository;
 import transport.repository.TransportRepository;
 
-public class TransportService implements ITransportService {
-    ITransportRepository transportRepository = new TransportRepository();
+import java.util.List;
 
+public class TransportService implements ITransportService<Transport,String> {
+    TransportRepository transportRepository = new TransportRepository();
     @Override
-    public Transport[] findAllTransport() {
+    public List<Transport> findAllTransport() {
         return transportRepository.findAllTransport();
     }
 
@@ -19,13 +19,13 @@ public class TransportService implements ITransportService {
     }
 
     @Override
-    public void addTransport(Transport transport) {
-        transportRepository.addTransport(transport);
+    public void addTransport(Transport object) {
+        transportRepository.addTransport(object);
     }
 
     @Override
-    public void editTransport(Transport transport) {
-        transportRepository.editTransport(transport);
+    public void editTransport(Transport object) {
+        transportRepository.editTransport(object);
     }
 
     @Override
