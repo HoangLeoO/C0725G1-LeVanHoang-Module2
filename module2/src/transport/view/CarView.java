@@ -4,12 +4,13 @@ package transport.view;
 import transport.entity.Car;
 import transport.entity.Transport;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CarView {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void showAllCar(Car[] cars) {
+    public static void showAllCar(List<Car> cars) {
         boolean found = false;
 
         System.out.println("===============================================================");
@@ -38,7 +39,7 @@ public class CarView {
     }
 
 
-    public static Transport addCar() {
+    public static Car addCar() {
         Car car = new Car();
 
         System.out.println("----- THÊM MỚI Ô TÔ -----");

@@ -3,12 +3,13 @@ package transport.view;
 
 import transport.entity.Truck;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class TruckView {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void showAllTruck(Truck[] trucks) {
+    public static void showAllTruck(List<Truck> trucks) {
         boolean found = false;
 
         System.out.println("===============================================================");

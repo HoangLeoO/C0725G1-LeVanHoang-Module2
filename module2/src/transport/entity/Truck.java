@@ -3,7 +3,7 @@ package transport.entity;
 public class Truck extends Transport {
     private double payloadCapacity;
 
-    public Truck(){
+    public Truck() {
 
     }
 
@@ -18,6 +18,11 @@ public class Truck extends Transport {
 
     public void setPayloadCapacity(double payloadCapacity) {
         this.payloadCapacity = payloadCapacity;
+    }
+
+    @Override
+    public String getInfoToSCV() {
+        return super.getInfoToSCV() + "," + this.payloadCapacity;
     }
 
     @Override

@@ -37,10 +37,23 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
-    public void updateFrom(Product product){
+
+    public void updateFrom(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
+    }
+
+    public String toText() {
+        return id + "," + name + "," + price;
+    }
+
+    public static Product fromText(String line) {
+        String[] parts = line.split(",");
+        return new Product(
+                Integer.parseInt(parts[0]),
+                parts[1],
+                Double.parseDouble(parts[2]));
     }
 
     @Override

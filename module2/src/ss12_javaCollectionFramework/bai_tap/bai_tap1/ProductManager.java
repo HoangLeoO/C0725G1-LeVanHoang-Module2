@@ -1,28 +1,58 @@
 package ss12_javaCollectionFramework.bai_tap.bai_tap1;
 
+import java.io.*;
 import java.util.*;
 
 public class ProductManager {
-    private static final List<Product> productList = new ArrayList<>();
+    private static final String FILE_NAME = "src/ss12_javaCollectionFramework/bai_tap/bai_tap1/product.txt";
+    private List<Product> productList = new ArrayList<>();
 
-    static {
-        productList.add(new Product(1, "Dien Thoai 1", 2.0f));
-        productList.add(new Product(2, "Dien Thoai 2", 5.0f));
-        productList.add(new Product(3, "Dien Thoai 3", 10.0f));
-        productList.add(new Product(4, "Dien Thoai 4", 20.0f));
-        productList.add(new Product(5, "Dien Thoai 5", 3.0f));
+
+    public ProductManager() {
+        loadFromFile();
+    }
+
+    private void loadFromFile() {
+        productList.clear();
+        File file = new File(FILE_NAME);
+        if (!file.exists()) {
+            return;
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                productList.add(Product.fromText(line));
+            }
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveToFile() {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
+                for (Product product : productList) {
+                    bw.write(product.toText());
+                    bw.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     public void addProduct(Product product) {
         productList.add(product);
+        saveToFile();
     }
 
     public void editProduct(Product product) {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getId() == product.getId()) {
                 productList.get(i).updateFrom(product);
+                break;
             }
         }
+        saveToFile();
     }
 
     public List<Product> findAllProduct() {
@@ -60,7 +90,9 @@ public class ProductManager {
         });
         return products;
     }
-    public void deleteById(int id){
+
+    public void deleteById(int id) {
         productList.remove(id);
+        saveToFile();
     }
 }

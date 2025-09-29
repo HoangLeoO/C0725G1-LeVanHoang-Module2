@@ -4,7 +4,7 @@ public class Car extends Transport {
     private int numberOfSeats;
     private String vehicleType;
 
-    public Car(){
+    public Car() {
 
     }
 
@@ -42,9 +42,14 @@ public class Car extends Transport {
     @Override
     public void updateFrom(Transport transport) {
         super.updateFrom(transport);
-        if (transport instanceof Car c){
+        if (transport instanceof Car c) {
             this.numberOfSeats = c.getNumberOfSeats();
             this.vehicleType = c.getVehicleType();
         }
+    }
+
+    @Override
+    public String getInfoToSCV() {
+        return super.getInfoToSCV() + "," + this.numberOfSeats + "," + this.vehicleType;
     }
 }

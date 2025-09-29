@@ -1,8 +1,8 @@
-package transport.service;
+package transport.view.service;
 
 
-import transport.entity.Transport;
-import transport.repository.TransportRepository;
+import transport.view.entity.Transport;
+import transport.view.repository.TransportRepository;
 
 import java.util.List;
 

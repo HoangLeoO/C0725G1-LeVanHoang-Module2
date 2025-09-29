@@ -49,6 +49,10 @@ public abstract class Transport {
         this.owner = owner;
     }
 
+    public String getInfoToSCV(){
+        return this.licensePlate + "," + this.manufacturer + "," + this.yearOfManufacture + "," + this.owner;
+    }
+
     public void updateFrom(Transport transport){
         this.licensePlate = transport.getLicensePlate();
         this.manufacturer = transport.getManufacturer();

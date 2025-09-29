@@ -1,9 +1,9 @@
-package transport.repository;
+package transport.view.repository;
 
-import transport.entity.Car;
-import transport.entity.Motorbike;
-import transport.entity.Transport;
-import transport.entity.Truck;
+import transport.view.entity.Car;
+import transport.view.entity.Motorbike;
+import transport.view.entity.Transport;
+import transport.view.entity.Truck;
 
 import java.util.ArrayList;
 import java.util.List;

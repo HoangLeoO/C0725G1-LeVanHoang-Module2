@@ -3,12 +3,13 @@ package transport.view;
 
 import transport.entity.Motorbike;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MotorbikeView {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void showAllMotorbike(Motorbike[] motorbikes) {
+    public static void showAllMotorbike(List<Motorbike> motorbikes) {
         boolean found = false;
 
         System.out.println("===============================================================");

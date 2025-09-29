@@ -1,5 +1,8 @@
 package ss10_dsa_list_set.bai_tap.bai_tap2;
 
+
+import ss10_dsa_list_set.bai_tap.bai_tap1.MyList;
+
 class MyLinkedList<E> {
     private static class Node<E> {
         E item;
@@ -17,76 +20,87 @@ class MyLinkedList<E> {
     private Node<E> last;
     private int size = 0;
 
-    // Thêm vào cuối
-    public void addLast(E e) {
-        Node<E> newNode = new Node<>(this.last, e, null);
-        if (this.last == null) { // danh sách rỗng
-            this.first = newNode;
-        } else {
-            this.last.next = newNode;
-        }
-        this.last = newNode;
-        this.size++;
+    public MyLinkedList() {
     }
 
-    // Thêm vào đầu
+    public boolean add(E e) {
+        Node<E> l = last;
+        Node<E> newNode = new Node<>(l, e, null);
+        last = newNode;
+        if (l == null) {
+            first = newNode;
+        } else {
+            l.next = newNode;
+        }
+        size++;
+        return true;
+    }
+
     public void addFirst(E e) {
-        Node<E> newNode = new Node<>(null, e, this.first);
-        if (this.first == null) { // danh sách rỗng
-            this.last = newNode;
+        Node<E> newNote = new Node<>(null, e, this.first);
+
+        if (this.first == null) {
+            add(e);
         } else {
-            this.first.prev = newNode;
+            this.first.prev = newNote;
         }
-        this.first = newNode;
-        this.size++;
-    }
-
-    // Thêm vào giữa (sau index)
-    public void add(int index, E e) {
-        if (index < 0 || index > this.size) throw new IndexOutOfBoundsException();
-        if (index == this.size) { // thêm cuối
-            addLast(e);
-            return;
-        }
-        if (index == 0) { // thêm đầu
-            addFirst(e);
-            return;
-        }
-
-        Node<E> curr = node(index);
-        Node<E> prev = curr.prev;
-        Node<E> newNode = new Node<>(prev, e, curr);
-
-        prev.next = newNode;
-        curr.prev = newNode;
+        this.first = newNote;
         size++;
     }
 
-    // Lấy node theo index
-    private Node<E> node(int index) {
-        if (index < (size / 2)) {
-            Node<E> x = first;
-            for (int i = 0; i < index; i++) x = x.next;
-            return x;
+    public void addLast(E e) {
+        Node<E> newNote = new Node<>(this.last, e, null);
+        if (this.last == null) {
+            add(e);
         } else {
-            Node<E> x = last;
-            for (int i = size - 1; i > index; i--) x = x.prev;
-            return x;
+            this.last.next = newNote;
+        }
+        this.last = newNote;
+        size++;
+    }
+
+    public void add(int index, E element) {
+        if (index == 0) {
+            addFirst(element);
+        } else if (index == size) {
+            addLast(element);
+        } else {
+            Node<E> succ = node(index);     // node hiện tại ở vị trí index
+            Node<E> pred = succ.prev;       // node trước nó
+            Node<E> newNode = new Node<>(pred, element, succ);
+
+            succ.prev = newNode;
+            pred.next = newNode;
+            size++;
         }
     }
 
-    // In ra danh sách
-    public void printList() {
-        Node<E> x = first;
-        while (x != null) {
-            System.out.print("[" + x.item + "]");
-            if (x.next != null) System.out.print(" <-> ");
-            x = x.next;
-        }
-        System.out.println();
+    public E get(int index) {
+        checkElementIndex(index);
+        return node(index).item;
     }
 
-    public int size() {
-        return size;
+    private Node<E> node(int index) {
+        Node<E> x;
+        if (index < (size / 2)) {
+            x = first;
+            for (int i = 0; i < index; i++) {
+                x = x.next;
+            }
+        } else {
+            x = last;
+            for (int i = size - 1; i > index; i--) {
+                x = x.prev;
+            }
+        }
+        return x;
+    }
+    public int size(){
+        return this.size;
+    }
+    private void checkElementIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 }

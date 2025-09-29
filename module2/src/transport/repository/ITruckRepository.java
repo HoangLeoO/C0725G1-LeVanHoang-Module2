@@ -1,6 +1,6 @@
 package transport.repository;
 
-import transport.entity.Motorbike;
+import transport.entity.Truck;
 
-public interface ITruckRepository extends ITransportRepository<Motorbike,String>{
+public interface ITruckRepository extends ITransportRepository<Truck,String>{
 }

@@ -39,4 +39,9 @@ public class TransportView {
 
         return confirm.equals("Y");
     }
+    public static String searchTransport() {
+        System.out.print("Nhập biển số phương tiện cần tìm: ");
+        return scanner.nextLine();
+    }
+
 }

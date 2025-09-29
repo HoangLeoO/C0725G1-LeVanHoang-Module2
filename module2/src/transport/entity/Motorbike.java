@@ -21,6 +21,11 @@ public class Motorbike extends Transport {
     }
 
     @Override
+    public String getInfoToSCV() {
+        return super.getInfoToSCV() + "," + this.enginePower;
+    }
+
+    @Override
     public String toString() {
         return super.toString() +
                 "  Loại xe        : Xe máy\n" +
