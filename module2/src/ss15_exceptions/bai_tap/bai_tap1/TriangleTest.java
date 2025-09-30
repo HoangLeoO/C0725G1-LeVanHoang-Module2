@@ -19,7 +19,6 @@ public class TriangleTest {
                 System.err.println("Lỗi: " + e.getMessage());
             } catch (Exception e) {
                 System.err.println(" Dữ liệu nhập không hợp lệ (phải là số)!");
-                ;
                 System.out.println(" Vui lòng nhập lại!\n");
             }
 
