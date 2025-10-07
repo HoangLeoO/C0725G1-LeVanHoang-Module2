@@ -46,4 +46,13 @@ public class Contract {
     public void setTotalPayment(double totalPayment) {
         this.totalPayment = totalPayment;
     }
+    @Override
+    public String toString() {
+        return "=== HỢP ĐỒNG ===\n" +
+                "Số hợp đồng: " + contractNumber + "\n" +
+                "Mã booking: " + bookingCode + "\n" +
+                "Tiền cọc: " + deposit + "\n" +
+                "Tổng thanh toán: " + totalPayment + "\n";
+    }
+
 }

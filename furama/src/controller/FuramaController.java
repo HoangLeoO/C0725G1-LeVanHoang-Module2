@@ -1,9 +1,9 @@
 package controller;
 
+import entity.Contract;
 import entity.person.Customer;
 import entity.person.Employee;
-import view.CustomerView;
-import view.EmployeeView;
+import view.*;
 
 import java.util.Scanner;
 
@@ -124,9 +124,11 @@ public class FuramaController {
             System.out.print("Vui lòng chọn chức năng: ");
             String choice = scanner.nextLine();
             switch (choice) {
-                case "1" -> System.out.println(">>> Hiển thị danh sách cơ sở vật chất");
-                case "2" -> System.out.println(">>> Thêm cơ sở vật chất mới");
-                case "3" -> System.out.println(">>> Hiển thị danh sách cơ sở vật chất cần bảo trì");
+                case "1" -> FacilityView.showList(FacilityController.showAll());
+                case "2" -> {
+                    System.out.println(FacilityController.add(FacilityView.showAdd()) ? "Thêm thành công!" : "Thêm không thành công!");
+                }
+                case "3" -> FacilityView.showListMaintenance(FacilityController.showMaintenanceList());
                 case "4" -> back = true;
                 default -> System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
             }
@@ -147,11 +149,26 @@ public class FuramaController {
             System.out.print("Vui lòng chọn chức năng: ");
             String choice = scanner.nextLine();
             switch (choice) {
-                case "1" -> System.out.println(">>> Thêm đặt chỗ mới");
-                case "2" -> System.out.println(">>> Hiển thị danh sách đặt chỗ");
-                case "3" -> System.out.println(">>> Tạo hợp đồng mới");
-                case "4" -> System.out.println(">>> Hiển thị danh sách hợp đồng");
-                case "5" -> System.out.println(">>> Chỉnh sửa hợp đồng");
+                case "1" -> {
+                    CustomerView.showListCustomer(CustomerController.customerList());
+                    BookingController.addBooking(BookingView.showAdd());
+                }
+                case "2" -> {
+
+                    BookingView.showList(BookingController.showAll());
+                }
+                case "3" -> ContractController.add(ContractView.showAdd(BookingController.getFirstAndRemoveBooking()));
+                case "4" -> ContractView.showList(ContractController.showList());
+                case "5" -> {
+                    System.out.println(">>> Nhập mã hợp đồng chỉnh sửa");
+                    Contract contract = ContractController.getContract(scanner.nextLine());
+                    if (contract != null) {
+                        ContractController.editContract(ContractView.showEdit(contract));
+                    } else {
+                        System.out.println(" Không tìm thấy hợp đồng!");
+                    }
+
+                }
                 case "6" -> back = true;
                 default -> System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
             }

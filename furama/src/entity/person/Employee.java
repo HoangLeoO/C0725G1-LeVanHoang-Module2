@@ -63,6 +63,7 @@ public class Employee extends Person {
 
     public static Employee fromCSV(String csvLine) {
         String[] parts = csvLine.split(",");
+        Employee employee = new Employee();
         return new Employee(
                 parts[0],
                 parts[1],

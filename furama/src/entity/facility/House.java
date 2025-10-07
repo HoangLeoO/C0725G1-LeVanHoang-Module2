@@ -35,4 +35,13 @@ public class House extends Facility {
     public void setNumFloors(int numFloors) {
         this.numFloors = numFloors;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "[HOUSE] %s | Tiêu chuẩn phòng: %s | Số tầng: %d",
+                super.toString(), roomStandard, numFloors
+        );
+    }
+
 }

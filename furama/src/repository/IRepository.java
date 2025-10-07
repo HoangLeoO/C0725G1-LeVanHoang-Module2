@@ -1,13 +1,12 @@
-package service;
+package repository;
 
 import java.util.List;
 
-public interface IPersonService<T> {
-    List<T> findAll();
-
-    List<T> findFullName(String fullName);
+public interface IRepository<T> {
 
     T findCode(String code);
+
+    List<T> findAll();
 
     boolean add(T object);
 

@@ -2,6 +2,8 @@ package entity.facility;
 
 import entity.enums.RentalType;
 
+import java.util.Objects;
+
 public abstract class Facility {
     private String serviceCode;
     private String serviceName;
@@ -69,5 +71,28 @@ public abstract class Facility {
 
     public void setRentalType(RentalType rentalType) {
         this.rentalType = rentalType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Facility)){
+            return false;
+        }
+        Facility facility = (Facility) o;
+        return Objects.equals(serviceCode, facility.serviceCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(serviceCode);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Mã dịch vụ: %s | Tên dịch vụ: %s | Diện tích: %.2f | Giá thuê: %.2f | Số người tối đa: %d | Kiểu thuê: %s",
+                serviceCode, serviceName, usableArea, rentalCost, maxPeople, rentalType
+        );
     }
 }

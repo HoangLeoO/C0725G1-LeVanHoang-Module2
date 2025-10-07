@@ -1,7 +1,7 @@
 package controller;
 
 import entity.person.Customer;
-import service.CustomerService;
+import service.person.CustomerService;
 
 import java.util.List;
 

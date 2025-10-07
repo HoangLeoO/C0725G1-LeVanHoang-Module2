@@ -2,9 +2,8 @@ package view;
 
 import entity.enums.CustomerType;
 import entity.person.Customer;
-import util.ValidatePerson;
+import validate.ValidatePerson;
 
-import javax.sound.midi.Soundbank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -45,21 +44,25 @@ public class CustomerView {
     public static Customer showFormAdd() {
         System.out.println("===== THÊM KHÁCH HÀNG MỚI =====");
 
-        System.out.print("Nhập mã khách hàng: ");
-        String code = scanner.nextLine();
+        // Mã khách hàng
+        String code;
+        while (true) {
+            System.out.print("Nhập mã khách hàng: ");
+            code = scanner.nextLine();
+            if (!code.isEmpty()) break;
+            System.out.println("Mã khách hàng không được để trống!");
+        }
 
-        // Nhập họ và tên
+        // Họ và tên
         String fullName;
         while (true) {
             System.out.print("Nhập họ và tên: ");
             fullName = scanner.nextLine();
-            if (fullName.matches(ValidatePerson.FULL_NAME)) {
-                break;
-            }
-            System.out.println("Họ tên không hợp lệ. Nhập lại!");
+            if (ValidatePerson.checkFullName(fullName)) break;
+            System.out.println("Họ tên không hợp lệ (ít nhất 2 từ, mỗi từ bắt đầu bằng chữ hoa)!");
         }
 
-        // Nhập ngày sinh
+        // Ngày sinh
         LocalDate birthday;
         while (true) {
             System.out.print("Nhập ngày sinh (dd/MM/yyyy): ");
@@ -72,97 +75,139 @@ public class CustomerView {
             }
         }
 
-        // Nhập giới tính
-        System.out.print("Nhập giới tính (Nam/Nữ): ");
-        String gender = scanner.nextLine();
+        // Giới tính
+        String gender = chooseGender(null);
 
-        // Nhập CMND/CCCD
+        // CMND/CCCD
         String idCard;
         while (true) {
             System.out.print("Nhập số CMND/CCCD: ");
             idCard = scanner.nextLine();
-            if (idCard.matches(ValidatePerson.ID_CARD)) {
-                break;
-            }
-            System.out.println("CMND/CCCD không hợp lệ. Nhập lại!");
+            if (ValidatePerson.checkIdCard(idCard)) break;
+            System.out.println("CMND/CCCD phải là 9 hoặc 12 chữ số.");
         }
 
-        // Nhập số điện thoại
+        // Số điện thoại
         String phone;
         while (true) {
             System.out.print("Nhập số điện thoại: ");
             phone = scanner.nextLine();
-            if (phone.matches(ValidatePerson.PHONE)) {
-                break;
-            }
-            System.out.println("Số điện thoại không hợp lệ. Nhập lại!");
+            if (ValidatePerson.checkPhone(phone)) break;
+            System.out.println("Số điện thoại không hợp lệ (bắt đầu bằng 0, 10-11 chữ số).");
         }
 
-        // Nhập email
+        // Email
         String email;
         while (true) {
             System.out.print("Nhập email: ");
             email = scanner.nextLine();
-            if (email.matches(ValidatePerson.EMAIL)) {
-                break;
-            }
-            System.out.println("Email không hợp lệ. Nhập lại!");
+            if (ValidatePerson.checkEmail(email)) break;
+            System.out.println("Email không hợp lệ.");
         }
 
-        // Chọn loại khách hàng
+        // Loại khách hàng
         CustomerType customerType = chooseCustomerType();
 
-        // Nhập địa chỉ
+        // Địa chỉ
         String address;
         while (true) {
             System.out.print("Nhập địa chỉ: ");
             address = scanner.nextLine();
-            if (address.matches(ValidatePerson.ADDRESS)) {
-                break;
-            }
-            System.out.println("Địa chỉ không hợp lệ. Nhập lại!");
+            if (ValidatePerson.checkAddress(address)) break;
+            System.out.println("Địa chỉ không hợp lệ (ít nhất 3 ký tự).");
         }
 
-        // Trả về Customer đã tạo
         return new Customer(code, fullName, birthday, gender, idCard, phone, email, customerType, address);
     }
 
-    // Form chỉnh sửa khách hàng
     public static Customer showFormEdit(Customer customer) {
         Customer customerNew = new Customer();
-
-        System.out.println("===== CHỈNH SỬA KHÁCH HÀNG =====");
-
         customerNew.setCode(customer.getCode());
-        System.out.print("Họ và tên (" + customer.getFullName() + "): ");
-        String fullName = scanner.nextLine();
-        customerNew.setFullName(fullName.isEmpty() ? customer.getFullName() : fullName);
 
-        System.out.print("Ngày sinh (" + customer.getBirthday() + ") [dd/MM/yyyy]: ");
-        String birthdayStr = scanner.nextLine();
-        if (!birthdayStr.isEmpty()) {
-            LocalDate birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            customerNew.setBirthday(birthday);
-        } else {
-            customerNew.setBirthday(customer.getBirthday());
+        // Họ và tên
+        while (true) {
+            System.out.print("Họ và tên (" + customer.getFullName() + "): ");
+            String fullName = scanner.nextLine();
+            if (fullName.isEmpty()) {
+                customerNew.setFullName(customer.getFullName());
+                break;
+            } else if (ValidatePerson.checkFullName(fullName)) {
+                customerNew.setFullName(fullName);
+                break;
+            } else {
+                System.out.println("Họ tên không hợp lệ (ít nhất 2 từ, mỗi từ bắt đầu bằng chữ hoa)!");
+            }
         }
 
-        System.out.print("Giới tính (" + customer.getGender() + "): ");
-        String gender = scanner.nextLine();
-        customerNew.setGender(gender.isEmpty() ? customer.getGender() : gender);
+        // Ngày sinh
+        while (true) {
+            System.out.print("Ngày sinh (" + customer.getBirthday() + ") [dd/MM/yyyy]: ");
+            String birthdayStr = scanner.nextLine();
+            if (birthdayStr.isEmpty()) {
+                customerNew.setBirthday(customer.getBirthday());
+                break;
+            }
+            try {
+                LocalDate birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                customerNew.setBirthday(birthday);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Ngày sinh không hợp lệ. Nhập lại!");
+            }
+        }
 
-        System.out.print("CMND/CCCD (" + customer.getIdCard() + "): ");
-        String idCard = scanner.nextLine();
-        customerNew.setIdCard(idCard.isEmpty() ? customer.getIdCard() : idCard);
+        // Giới tính
+        // Giới tính
+        System.out.println("Giới tính (" + customer.getGender() + "): ");
+        String gender = chooseGender(customer.getGender());
+        customerNew.setGender(gender);
 
-        System.out.print("Số điện thoại (" + customer.getPhone() + "): ");
-        String phone = scanner.nextLine();
-        customerNew.setPhone(phone.isEmpty() ? customer.getPhone() : phone);
+        // CMND/CCCD
+        while (true) {
+            System.out.print("CMND/CCCD (" + customer.getIdCard() + "): ");
+            String idCard = scanner.nextLine();
+            if (idCard.isEmpty()) {
+                customerNew.setIdCard(customer.getIdCard());
+                break;
+            } else if (ValidatePerson.checkIdCard(idCard)) {
+                customerNew.setIdCard(idCard);
+                break;
+            } else {
+                System.out.println("CMND/CCCD phải là 9 hoặc 12 chữ số.");
+            }
+        }
 
-        System.out.print("Email (" + customer.getEmail() + "): ");
-        String email = scanner.nextLine();
-        customerNew.setEmail(email.isEmpty() ? customer.getEmail() : email);
+        // Số điện thoại
+        while (true) {
+            System.out.print("Số điện thoại (" + customer.getPhone() + "): ");
+            String phone = scanner.nextLine();
+            if (phone.isEmpty()) {
+                customerNew.setPhone(customer.getPhone());
+                break;
+            } else if (ValidatePerson.checkPhone(phone)) {
+                customerNew.setPhone(phone);
+                break;
+            } else {
+                System.out.println("Số điện thoại không hợp lệ (bắt đầu bằng 0, 10-11 chữ số).");
+            }
+        }
 
+        // Email
+        while (true) {
+            System.out.print("Email (" + customer.getEmail() + "): ");
+            String email = scanner.nextLine();
+            if (email.isEmpty()) {
+                customerNew.setEmail(customer.getEmail());
+                break;
+            } else if (ValidatePerson.checkEmail(email)) {
+                customerNew.setEmail(email);
+                break;
+            } else {
+                System.out.println("Email không hợp lệ.");
+            }
+        }
+
+        // Loại khách hàng
         System.out.println("Loại khách hàng (" + customer.getCustomerType() + "): ");
         System.out.print("Bạn có muốn thay đổi không? (y/n): ");
         String changeType = scanner.nextLine();
@@ -172,12 +217,24 @@ public class CustomerView {
             customerNew.setCustomerType(customer.getCustomerType());
         }
 
-        System.out.print("Địa chỉ (" + customer.getAddress() + "): ");
-        String address = scanner.nextLine();
-        customerNew.setAddress(address.isEmpty() ? customer.getAddress() : address);
+        // Địa chỉ
+        while (true) {
+            System.out.print("Địa chỉ (" + customer.getAddress() + "): ");
+            String address = scanner.nextLine();
+            if (address.isEmpty()) {
+                customerNew.setAddress(customer.getAddress());
+                break;
+            } else if (ValidatePerson.checkAddress(address)) {
+                customerNew.setAddress(address);
+                break;
+            } else {
+                System.out.println("Địa chỉ không hợp lệ (ít nhất 3 ký tự).");
+            }
+        }
 
         return customerNew;
     }
+
 
     // Chọn loại khách hàng
     private static CustomerType chooseCustomerType() {
@@ -210,4 +267,27 @@ public class CustomerView {
             }
         }
     }
+    private static String chooseGender(String currentGender) {
+        while (true) {
+            if (currentGender == null) {
+                // Add mới
+                System.out.print("Chọn giới tính (1. Nam, 2. Nữ): ");
+            } else {
+                // Edit, hiển thị giá trị cũ
+                System.out.print("Chọn giới tính (1. Nam, 2. Nữ): ");
+            }
+
+            String input = scanner.nextLine();
+            if (input.isEmpty() && currentGender != null) {
+                return currentGender; // giữ nguyên giá trị cũ
+            }
+
+            switch (input) {
+                case "1", "Nam", "nam" -> { return "Nam"; }
+                case "2", "Nữ", "nữ" -> { return "Nữ"; }
+                default -> System.out.println("Lựa chọn không hợp lệ, vui lòng thử lại!");
+            }
+        }
+    }
+
 }

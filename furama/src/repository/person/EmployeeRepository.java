@@ -1,8 +1,10 @@
-package repository.Person;
+package repository.person;
 
 import entity.person.Employee;
 import util.ReadAndWriterFile;
+import validate.ValidatePerson;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,29 @@ public class EmployeeRepository implements IEmployeeRepository {
     public List<Employee> findAll() {
         List<String> stringList = ReadAndWriterFile.readFile(PATH_FILE);
         List<Employee> employeeList = new ArrayList<>();
-        for (String string : stringList) {
-            employeeList.add(Employee.fromCSV(string));
+        try {
+            for (String string : stringList) {
+                Employee employee = Employee.fromCSV(string);
+                try {
+                    if (!ValidatePerson.checkCodeEmployee(employee.getCode())){
+                        throw new Exception();
+                    }
+                    employeeList.add(employee);
+                }catch (Exception e){
+                    System.out.println(" Lỗi đọc file -> Mã nhân viên không đúng định dạng ");
+                }
+            }
+        }catch (DateTimeParseException e){
+            System.out.println(" Lỗi đọc file -> Ngày sinh không đúng định dạng! ");
+        }catch (NumberFormatException e){
+            System.out.println(" Lỗi đọc file -> Lương bị sai số!");
+        }catch (IllegalArgumentException e){
+            System.out.println(" Lỗi đọc file -> Loại khách hàng có trong enum!");
+        }catch (Exception e){
+            System.out.println(" Lỗi đoc file ! ");
+            e.printStackTrace();
         }
+
         return employeeList;
     }
 

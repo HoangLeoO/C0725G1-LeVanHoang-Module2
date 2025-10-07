@@ -16,7 +16,7 @@ public class ReadAndWriterFile {
             while ((line = bufferedReader.readLine()) != null) {
                 result.add(line);
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             System.out.println(" Lỗi đọc file ! ");
         }
 

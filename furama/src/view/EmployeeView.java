@@ -3,6 +3,7 @@ package view;
 import entity.enums.EducationLevel;
 import entity.enums.Position;
 import entity.person.Employee;
+import validate.ValidatePerson;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,77 +45,185 @@ public class EmployeeView {
     public static Employee showFormAdd() {
         System.out.println("===== THÊM NHÂN VIÊN MỚI =====");
 
-        System.out.print("Nhập mã nhân viên: ");
-        String code = scanner.nextLine();
+        // Mã nhân viên (có thể check không rỗng)
+        String code;
+        while (true) {
+            System.out.print("Nhập mã nhân viên: ");
+            code = scanner.nextLine();
+            if (!code.isEmpty()) break;
+            System.out.println("Mã nhân viên không được để trống!");
+        }
 
-        System.out.print("Nhập họ và tên: ");
-        String fullName = scanner.nextLine();
+        // Họ và tên
+        String fullName;
+        while (true) {
+            System.out.print("Nhập họ và tên: ");
+            fullName = scanner.nextLine();
+            if (ValidatePerson.checkFullName(fullName)) break;
+            System.out.println("Họ và tên không hợp lệ (ít nhất 2 từ, mỗi từ bắt đầu bằng chữ hoa)!");
+        }
 
-        System.out.print("Nhập ngày sinh (dd/MM/yyyy): ");
-        String birthdayStr = scanner.nextLine();
-        LocalDate birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        // Ngày sinh
+        LocalDate birthday;
+        while (true) {
+            try {
+                System.out.print("Nhập ngày sinh (dd/MM/yyyy): ");
+                birthday = LocalDate.parse(scanner.nextLine(),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                break;
+            } catch (Exception e) {
+                System.out.println("Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.");
+            }
+        }
 
-        System.out.print("Nhập giới tính: ");
-        String gender = scanner.nextLine();
+        // Giới tính (có thể check chỉ nhận Male/Female)
+       String gender = chooseGender(null);
 
-        System.out.print("Nhập số CMND/CCCD: ");
-        String idCard = scanner.nextLine();
+        // CMND/CCCD
+        String idCard;
+        while (true) {
+            System.out.print("Nhập số CMND/CCCD: ");
+            idCard = scanner.nextLine();
+            if (ValidatePerson.checkIdCard(idCard)) break;
+            System.out.println("CMND/CCCD phải là 9 hoặc 12 chữ số.");
+        }
 
-        System.out.print("Nhập số điện thoại: ");
-        String phone = scanner.nextLine();
+        // Số điện thoại
+        String phone;
+        while (true) {
+            System.out.print("Nhập số điện thoại: ");
+            phone = scanner.nextLine();
+            if (ValidatePerson.checkPhone(phone)) break;
+            System.out.println("Số điện thoại không hợp lệ (bắt đầu bằng 0, 10-11 chữ số).");
+        }
 
-        System.out.print("Nhập email: ");
-        String email = scanner.nextLine();
+        // Email
+        String email;
+        while (true) {
+            System.out.print("Nhập email: ");
+            email = scanner.nextLine();
+            if (ValidatePerson.checkEmail(email)) break;
+            System.out.println("Email không hợp lệ.");
+        }
 
+        // Trình độ học vấn
         System.out.println("Chọn trình độ học vấn: ");
         EducationLevel level = chooseEducationLevel();
 
+        // Chức vụ
         System.out.println("Chọn chức vụ: ");
         Position position = choosePosition();
 
-        System.out.print("Nhập lương: ");
-        double salary = Double.parseDouble(scanner.nextLine());
+        // Lương
+        double salary;
+        while (true) {
+            try {
+                System.out.print("Nhập lương: ");
+                String salaryStr = scanner.nextLine();
+                if (ValidatePerson.checkSalary(salaryStr)) {
+                    salary = Double.parseDouble(salaryStr);
+                    break;
+                } else {
+                    System.out.println("Lương không hợp lệ (số thực, tối đa 2 chữ số thập phân).");
+                }
+            } catch (Exception e) {
+                System.out.println("Lương không hợp lệ.");
+            }
+        }
 
         return new Employee(code, fullName, birthday, gender, idCard, phone, email, level, position, salary);
     }
 
+
     // Form chỉnh sửa nhân viên
     public static Employee showFormEdit(Employee employee) {
         Employee employeeNew = new Employee();
+        employeeNew.setCode(employee.getCode()); // Mã nhân viên giữ nguyên
 
         System.out.println("===== CHỈNH SỬA NHÂN VIÊN =====");
 
-        employeeNew.setCode(employee.getCode());
-
-        System.out.print("Họ và tên (" + employee.getFullName() + "): ");
-        String fullName = scanner.nextLine();
-        employeeNew.setFullName(fullName.isEmpty() ? employee.getFullName() : fullName);
-
-        System.out.print("Ngày sinh (" + employee.getBirthday() + ") [dd/MM/yyyy]: ");
-        String birthdayStr = scanner.nextLine();
-        if (!birthdayStr.isEmpty()) {
-            LocalDate birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            employeeNew.setBirthday(birthday);
-        } else {
-            employeeNew.setBirthday(employee.getBirthday());
+        // Họ và tên
+        while (true) {
+            System.out.print("Họ và tên (" + employee.getFullName() + "): ");
+            String fullName = scanner.nextLine();
+            if (fullName.isEmpty()) {
+                employeeNew.setFullName(employee.getFullName());
+                break;
+            } else if (ValidatePerson.checkFullName(fullName)) {
+                employeeNew.setFullName(fullName);
+                break;
+            } else {
+                System.out.println("Họ và tên không hợp lệ (ít nhất 2 từ, mỗi từ bắt đầu bằng chữ hoa)!");
+            }
         }
 
-        System.out.print("Giới tính (" + employee.getGender() + "): ");
-        String gender = scanner.nextLine();
-        employeeNew.setGender(gender.isEmpty() ? employee.getGender() : gender);
+        // Ngày sinh
+        while (true) {
+            System.out.print("Ngày sinh (" + employee.getBirthday() + ") [dd/MM/yyyy]: ");
+            String birthdayStr = scanner.nextLine();
+            if (birthdayStr.isEmpty()) {
+                employeeNew.setBirthday(employee.getBirthday());
+                break;
+            }
+            try {
+                LocalDate birthday = LocalDate.parse(birthdayStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                employeeNew.setBirthday(birthday);
+                break;
+            } catch (Exception e) {
+                System.out.println("Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.");
+            }
+        }
 
-        System.out.print("CMND/CCCD (" + employee.getIdCard() + "): ");
-        String idCard = scanner.nextLine();
-        employeeNew.setIdCard(idCard.isEmpty() ? employee.getIdCard() : idCard);
+        // Giới tính
+        System.out.println("Giới tính (" + employee.getGender() + "): ");
+        String gender = chooseGender(employee.getGender());
+        employeeNew.setGender(gender);
 
-        System.out.print("Số điện thoại (" + employee.getPhone() + "): ");
-        String phone = scanner.nextLine();
-        employeeNew.setPhone(phone.isEmpty() ? employee.getPhone() : phone);
+        // CMND/CCCD
+        while (true) {
+            System.out.print("CMND/CCCD (" + employee.getIdCard() + "): ");
+            String idCard = scanner.nextLine();
+            if (idCard.isEmpty()) {
+                employeeNew.setIdCard(employee.getIdCard());
+                break;
+            } else if (ValidatePerson.checkIdCard(idCard)) {
+                employeeNew.setIdCard(idCard);
+                break;
+            } else {
+                System.out.println("CMND/CCCD phải là 9 hoặc 12 chữ số.");
+            }
+        }
 
-        System.out.print("Email (" + employee.getEmail() + "): ");
-        String email = scanner.nextLine();
-        employeeNew.setEmail(email.isEmpty() ? employee.getEmail() : email);
+        // Số điện thoại
+        while (true) {
+            System.out.print("Số điện thoại (" + employee.getPhone() + "): ");
+            String phone = scanner.nextLine();
+            if (phone.isEmpty()) {
+                employeeNew.setPhone(employee.getPhone());
+                break;
+            } else if (ValidatePerson.checkPhone(phone)) {
+                employeeNew.setPhone(phone);
+                break;
+            } else {
+                System.out.println("Số điện thoại không hợp lệ (bắt đầu bằng 0, 10-11 chữ số).");
+            }
+        }
 
+        // Email
+        while (true) {
+            System.out.print("Email (" + employee.getEmail() + "): ");
+            String email = scanner.nextLine();
+            if (email.isEmpty()) {
+                employeeNew.setEmail(employee.getEmail());
+                break;
+            } else if (ValidatePerson.checkEmail(email)) {
+                employeeNew.setEmail(email);
+                break;
+            } else {
+                System.out.println("Email không hợp lệ.");
+            }
+        }
+
+        // Trình độ học vấn
         System.out.println("Trình độ học vấn (" + employee.getLevel().getDisplayName() + "): ");
         System.out.print("Bạn có muốn thay đổi không? (y/n): ");
         String changeLevel = scanner.nextLine();
@@ -124,6 +233,7 @@ public class EmployeeView {
             employeeNew.setLevel(employee.getLevel());
         }
 
+        // Chức vụ
         System.out.println("Chức vụ (" + employee.getPosition().getDisplayName() + "): ");
         System.out.print("Bạn có muốn thay đổi không? (y/n): ");
         String changePos = scanner.nextLine();
@@ -133,12 +243,25 @@ public class EmployeeView {
             employeeNew.setPosition(employee.getPosition());
         }
 
-        System.out.print("Lương (" + employee.getSalary() + "): ");
-        String salaryStr = scanner.nextLine();
-        employeeNew.setSalary(salaryStr.isEmpty() ? employee.getSalary() : Double.parseDouble(salaryStr));
+        // Lương
+        while (true) {
+            System.out.print("Lương (" + employee.getSalary() + "): ");
+            String salaryStr = scanner.nextLine();
+            if (salaryStr.isEmpty()) {
+                employeeNew.setSalary(employee.getSalary());
+                break;
+            }
+            if (ValidatePerson.checkSalary(salaryStr)) {
+                employeeNew.setSalary(Double.parseDouble(salaryStr));
+                break;
+            } else {
+                System.out.println("Lương không hợp lệ (số thực, tối đa 2 chữ số thập phân).");
+            }
+        }
 
         return employeeNew;
     }
+
 
     private static EducationLevel chooseEducationLevel() {
         while (true) {
@@ -168,7 +291,7 @@ public class EmployeeView {
 
     private static Position choosePosition() {
         while (true) {
-            System.out.println("1. " + Position.RECEPTIONIST.getDisplayName());
+            System.out.println("1. " + Position.RECEPTIONIST);
             System.out.println("2. " + Position.WAITER.getDisplayName());
             System.out.println("3. " + Position.SPECIALIST.getDisplayName());
             System.out.println("4. " + Position.SUPERVISOR.getDisplayName());
@@ -199,4 +322,27 @@ public class EmployeeView {
             }
         }
     }
+    private static String chooseGender(String currentGender) {
+        while (true) {
+            if (currentGender == null) {
+                // Add mới
+                System.out.print("Chọn giới tính (1. Nam, 2. Nữ): ");
+            } else {
+                // Edit, hiển thị giá trị cũ
+                System.out.print("Chọn giới tính (1. Nam, 2. Nữ): ");
+            }
+
+            String input = scanner.nextLine();
+            if (input.isEmpty() && currentGender != null) {
+                return currentGender; // giữ nguyên giá trị cũ
+            }
+
+            switch (input) {
+                case "1", "Nam", "nam" -> { return "Nam"; }
+                case "2", "Nữ", "nữ" -> { return "Nữ"; }
+                default -> System.out.println("Lựa chọn không hợp lệ, vui lòng thử lại!");
+            }
+        }
+    }
+
 }

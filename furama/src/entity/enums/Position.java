@@ -7,7 +7,6 @@ public enum Position {
     SUPERVISOR("Giám sát"),
     MANAGER("Quản lý"),
     DIRECTOR("Giám đốc");
-
     private final String displayName;
 
     Position(String displayName) {
@@ -17,4 +16,5 @@ public enum Position {
     public String getDisplayName() {
         return displayName;
     }
+
 }
