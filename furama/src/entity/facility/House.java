@@ -2,6 +2,8 @@ package entity.facility;
 
 import entity.enums.RentalType;
 
+import java.util.Objects;
+
 public class House extends Facility {
     private String roomStandard;
     private int numFloors;
@@ -36,6 +38,7 @@ public class House extends Facility {
         this.numFloors = numFloors;
     }
 
+
     @Override
     public String toString() {
         return String.format(
@@ -44,4 +47,16 @@ public class House extends Facility {
         );
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        House house = (House) o;
+        return numFloors == house.numFloors && Objects.equals(roomStandard, house.roomStandard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), roomStandard, numFloors);
+    }
 }

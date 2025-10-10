@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Booking implements Comparable<Booking>{
+public class Booking {
     private String bookingCode;   // Mã booking
     private LocalDate bookingDate; // Ngày booking
     private LocalDate startDate;   // Ngày bắt đầu thuê
@@ -22,7 +22,8 @@ public class Booking implements Comparable<Booking>{
         this.serviceCode = serviceCode;
     }
 
-    public Booking() {}
+    public Booking() {
+    }
 
     public String getBookingCode() {
         return bookingCode;
@@ -85,23 +86,7 @@ public class Booking implements Comparable<Booking>{
         return Objects.hash(bookingCode, bookingDate, startDate, endDate, customerCode, serviceCode);
     }
 
-    @Override
-    public int compareTo(Booking other) {
-        // Ưu tiên theo ngày booking
-        int cmp = this.bookingDate.compareTo(other.bookingDate);
 
-        if (cmp == 0) {
-            // Nếu trùng ngày booking → so sánh theo ngày kết thúc
-            cmp = this.endDate.compareTo(other.endDate);
-        }
-
-        if (cmp == 0) {
-            // Nếu vẫn trùng cả hai ngày → so sánh theo mã booking (để tránh mất dữ liệu)
-            cmp = this.bookingCode.compareTo(other.bookingCode);
-        }
-
-        return cmp;
-    }
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
