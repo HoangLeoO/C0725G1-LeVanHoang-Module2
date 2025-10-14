@@ -10,7 +10,7 @@ public interface IAnimalService<T> {
 
     boolean deleteByCode(String codeAnimal);
 
-    void update(T animal);
+    boolean  update(T animal);
 
     List<T> findByName(String name);
 

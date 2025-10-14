@@ -1,5 +1,7 @@
 package repository;
 
+import entity.Animal;
+
 import java.util.List;
 
 public interface IAnimalRepository<T> {
@@ -8,4 +10,5 @@ public interface IAnimalRepository<T> {
     void writeToFile(List<T> animals);
 
     void appendToFile(List<T> animals,boolean isAppend);
+
 }

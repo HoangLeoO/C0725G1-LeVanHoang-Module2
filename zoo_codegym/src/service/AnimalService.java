@@ -14,106 +14,105 @@ import java.util.List;
 public class AnimalService implements IAnimalService<Animal> {
 
     private static final IAnimalRepository<String> animalRepository = new AnimalRepository();
+    private static List<Animal> cache = new ArrayList<>();
+
+
+    public AnimalService() {
+        loadFromFileOnce();
+    }
+
+
+    private void loadFromFileOnce() {
+        if (!cache.isEmpty()) return;
+        List<String> lines = animalRepository.loadFromFile();
+        for (String line : lines) {
+            try {
+                cache.add(AnimalConverter.fromDataString(line));
+            } catch (Exception e) {
+                System.out.println("Lỗi khi đọc dòng dữ liệu: " + line);
+            }
+        }
+        System.out.println("Dữ liệu động vật đã được nạp vào cache.");
+    }
+
+    private void saveCacheToFile() {
+        List<String> lines = new ArrayList<>();
+        for (Animal a : cache) {
+            lines.add(AnimalConverter.toDataString(a));
+        }
+        animalRepository.writeToFile(lines);
+    }
 
     @Override
     public List<Animal> findAll() {
-        List<String> lines = animalRepository.loadFromFile();
-        List<Animal> animals = new ArrayList<>();
-        for (String line : lines) {
-            try {
-                Animal animal = AnimalConverter.fromDataString(line);
-                animals.add(animal);
-            } catch (NumberFormatException e) {
-                System.out.println(" Lỗi sai định dạng năm!");
-            }catch (Exception e){
-                System.out.println(" Lôi đọc file!");
-            }
-        }
-        return animals;
+        return new ArrayList<>(cache);
     }
 
     @Override
     public boolean add(Animal animal) {
-        if (animal != null) {
-            String line = AnimalConverter.toDataString(animal);
-            List<String> animals = new ArrayList<>();
-            animals.add(line);
-            animalRepository.appendToFile(animals, true);
-            return true;
+        if (animal == null) return false;
+        cache.add(animal);
+        saveCacheToFile();
+        return true;
+    }
+
+    @Override
+    public boolean deleteByCode(String codeAnimal) {
+        if (codeAnimal == null || codeAnimal.isBlank()) return false;
+
+        Animal toDelete = findByCode(codeAnimal);
+        if (toDelete == null) return false;
+
+        cache.remove(toDelete);
+        saveCacheToFile();
+        return true;
+    }
+
+
+    @Override
+    public boolean update(Animal animal) {
+        if (animal == null || animal.getId() == null) return false;
+
+        for (Animal existing : cache) {
+            if (existing.getId().equalsIgnoreCase(animal.getId())) {
+                existing.setName(animal.getName());
+                existing.setBirthYear(animal.getBirthYear());
+                existing.setCage(animal.getCage());
+
+                // Cập nhật thuộc tính riêng
+                if (animal instanceof Carnivore c && existing instanceof Carnivore e) {
+                    e.setFavoritePrey(c.getFavoritePrey());
+                } else if (animal instanceof Herbivore c && existing instanceof Herbivore e) {
+                    e.setFavoritePlant(c.getFavoritePlant());
+                } else if (animal instanceof Bird c && existing instanceof Bird e) {
+                    e.setWingSpan(c.getWingSpan());
+                    e.setCanSpeak(c.isCanSpeak());
+                }
+                saveCacheToFile();
+                return true;
+            }
         }
         return false;
     }
 
     @Override
-    public boolean deleteByCode(String codeAnimal) {
-        List<Animal> animals = findAll();
-        if (!codeAnimal.isBlank()) {
-            Animal toDelete = findByCode(codeAnimal);
-            if (toDelete == null) {
-                return false;
-            }
-            animals.remove(toDelete);
-            List<String> updatedLines = new ArrayList<>();
-            for (Animal animal : animals) {
-                updatedLines.add(AnimalConverter.toDataString(animal));
-            }
-            animalRepository.writeToFile(updatedLines);
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    @Override
-    public void update(Animal animal) {
-        List<Animal> animals = findAll();
-
-        for (Animal animal1 : animals) {
-            if (animal1.getId().equalsIgnoreCase(animal.getId())) {
-                animal1.setName(animal.getName());
-                animal1.setBirthYear(animal.getBirthYear());
-                animal1.setCage(animal.getCage());
-
-                if (animal instanceof Carnivore && animal1 instanceof Carnivore) {
-                    ((Carnivore) animal1).setFavoritePrey(((Carnivore) animal).getFavoritePrey());
-                } else if (animal instanceof Herbivore && animal1 instanceof Herbivore) {
-                    ((Herbivore) animal1).setFavoritePlant(((Herbivore) animal).getFavoritePlant());
-                } else if (animal instanceof Bird && animal1 instanceof Bird) {
-                    ((Bird) animal1).setWingSpan(((Bird) animal).getWingSpan());
-                    ((Bird) animal1).setCanSpeak(((Bird) animal).isCanSpeak());
-                }
-                break;
-            }
-        }
-
-        List<String> updatedLines = new ArrayList<>();
-        for (Animal a : animals) {
-            updatedLines.add(AnimalConverter.toDataString(a));
-        }
-        animalRepository.writeToFile(updatedLines);
-    }
-
-    @Override
     public List<Animal> findByName(String name) {
-        List<Animal> animals = new ArrayList<>();
-        if (name != null && !name.isBlank()) {
-            for (Animal animal : findAll()) {
-                if (animal.getName().toLowerCase().contains(name.toLowerCase())) {
-                    animals.add(animal);
-                }
+        if (name == null || name.isBlank()) return List.of();
+        List<Animal> result = new ArrayList<>();
+        for (Animal a : cache) {
+            if (a.getName().toLowerCase().contains(name.toLowerCase().trim())) {
+                result.add(a);
             }
         }
-        return animals;
+        return result;
     }
 
     @Override
     public Animal findByCode(String code) {
-        if (code != null && !code.isBlank()) {
-            for (Animal animal : findAll()) {
-                if (animal.getId().equalsIgnoreCase(code)) {
-                    return animal;
-                }
+        if (code == null || code.isBlank()) return null;
+        for (Animal a : cache) {
+            if (a.getId().equalsIgnoreCase(code.trim())) {
+                return a;
             }
         }
         return null;

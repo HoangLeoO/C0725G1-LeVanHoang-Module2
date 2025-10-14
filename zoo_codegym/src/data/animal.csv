@@ -1,12 +1,8 @@
 CARNIVORE,A001,Lion,1111,Cage A1,Zebra
 CARNIVORE,A002,Tiger,2019,Cage A2,Deer
 HERBIVORE,H001,Elephant,2015,Cage B1,Grass
-HERBIVORE,H002,Rabbit,2022,Cage B2,Carrot
-BIRD,B001,Parrot,2020,Cage C1,0.4,true
-BIRD,B002,Eagle,2017,Cage C2,2.0,true
 CARNIVORE,test,test,123,test,test
 CARNIVORE,test1,tst1,123,213,13
-BIRD,123,123,123,123,123.0,true
-BIRD,B-1234,Abbb,1997,wqe,1111.0,123
+BIRD,B-1234,Abbb,1997,wqe,1111.0,false
 BIRD,B-1234,Tsad,1232,,1.5,false
 BIRD,B-1234,Test,1234,khong,1.4,true

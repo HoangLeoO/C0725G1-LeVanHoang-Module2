@@ -1,0 +1,29 @@
+package util;
+
+public class Validate {
+    public static final String CODE = "^((KS)|(VP)|(BH))\\d{3}$";
+    // Regex cho họ và tên: ít nhất 2 từ, mỗi từ bắt đầu bằng chữ hoa, có thể có dấu tiếng Việt
+    public static final String FULL_NAME = "^[A-ZÀ-Ỹ][a-zà-ỹ]+(\\s[A-ZÀ-Ỹ][a-zà-ỹ]+)+$";
+    // Regex ngày sinh: định dạng yyyy-MM-dd, ví dụ 1990-12-31
+    public static final String BIRTH_DAY = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
+    public static final String BIRTH_YEAR = "^\\d{4}$";
+    // Regex CMND/CCCD: 9 hoặc 12 chữ số
+    public static final String ID_CARD = "^\\d{9}|\\d{12}$";
+    // Regex số điện thoại Việt Nam: 10 hoặc 11 số, bắt đầu bằng 0
+    public static final String PHONE = "^0\\d{9,10}$";
+    // Regex email cơ bản: abc@domain.com
+    public static final String EMAIL = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
+    // Regex địa chỉ: ít nhất 3 ký tự (có thể gồm số, chữ, dấu cách, dấu , . -)
+    public static final String ADDRESS = "^[\\w\\s,.-]{3,}$";
+    // Regex lương: số thực, có thể có 2 chữ số thập phân
+    public static final String SALARY = "^\\d+(\\.\\d{1,2})?$";
+
+    public static final String CHECK = "";
+
+//    public static void main(String[] args) {
+//        String test = "";
+//        if (test.matches(CHECK)){
+//
+//        }
+//    }
+}

@@ -1,15 +1,15 @@
 package repository;
 
 import entity.Animal;
+import util.AnimalConverter;
 import util.ReadAndWriterFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalRepository implements IAnimalRepository<String> {
 
     private static final String PATH_FILE = "src/data/animal.csv";
-
-
 
     @Override
     public List<String> loadFromFile() {
@@ -25,4 +25,5 @@ public class AnimalRepository implements IAnimalRepository<String> {
     public void appendToFile(List<String> animals, boolean isAppend) {
         ReadAndWriterFile.writerFile(PATH_FILE, animals, isAppend);
     }
+
 }
